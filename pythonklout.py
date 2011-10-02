@@ -1,6 +1,26 @@
 __author__ = "Domenico Solazzo"
 __version__ = "0.1"
 
+RESPONSE_CODES = {
+        200: "OK: Success",
+        202: "Accepted: The request was accepted and the user was queued for processing",
+        401: "Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.",
+        403: "Bad Request: Your request is invalid and we'll return and error message that tells you why. This is the status code if you have exceeded the rate limit.",
+        404: "Not Found: either you are requesting an invalid URI or the resource in question doesn't exist.",
+        500: "Internal Server Error: we did something wrong.",
+        502: "Bad Gateway: returned if Klout is down or being upgraded.",
+        503: "Service Unavailable: the Klout servers are up, but are overloaded with requests. Try again later."
+}
+class KloutError( Exception ):
+    def __init__(self, code=0, msg=''):
+        super(KloutError, self).__init__()
+        self.code = code
+        self.msg = msg
+    def __str__(self):
+        return repr(self)
+    def __repr__(self):
+        return "%i: %s" % (self.code, self.msg)
+ 
 class Klout( object ):
     def __init__(self, key, serviceType="service"):
         self._apiKey = key
@@ -121,10 +141,14 @@ class KloutService(object):
     def makeCall(self, callName, query):
         import urllib, httplib, json
         url = self.getCallUrl(callName)
+        
         query = self._remove_empty_params(query)
+        
         if 'key' not in query:
             query["key"] = self.apiKey
+        
         queryStr = urllib.urlencode(query)
+        
         if len(query) > 0:
             if url.find("?") == -1:
                 url = url + "?" + queryStr
@@ -137,13 +161,11 @@ class KloutService(object):
             data = response.read()
             data = json.loads(data)
         except httplib.HTTPException as err:
-            msg = err.read() or "Error"
-            raise Exception(msg)
+            msg = err.read() or RESPONSE_CODES.get(err.code, err.message)
+            raise KloutError(err.code, msg)
         except ValueError:
             msg = "Invalid data: %s" % data
-            raise Exception(msg)
-        else:
-            status = data.pop("status")
+            raise KloutError(0, msg)
         return data
 class TestKloutService(KloutService):
     def makeCall(self, callName, query):
