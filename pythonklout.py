@@ -85,9 +85,9 @@ class Klout( object ):
             @return: A list of dicts in the form [{username:[(username, score),..}
         """
         if not users:
-            raise Exception("Input is empty")
+            raise KloutError(0, "No Users")
         if not isinstance(users, (list, tuple)):
-            raise Exception("Not Implemented Yet")
+            raise KloutError(0, "Wrong Input.")
         users = ",".join(users)
         query = {"users":users}
         result = self.__service.makeCall("influencerOf", query)
