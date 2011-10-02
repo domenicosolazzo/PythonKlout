@@ -71,9 +71,9 @@ class Klout( object ):
             @return: A list of dicts in the form [{username:['topic1, topic2, topic3]..}
         """
         if not users:
-            raise Exception("Input is empty")
+            raise KloutError(0, "No Users")
         if not isinstance(users, (list, tuple)):
-            raise Exception("Not Implemented Yet")
+            raise KloutError(0, "Wrong Input.")
         users = ",".join(users)
         query = {"users":users}
         result = self.__service.makeCall("topics", query)
