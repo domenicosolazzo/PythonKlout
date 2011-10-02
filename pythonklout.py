@@ -57,9 +57,9 @@ class Klout( object ):
             @return: A dictionary with the returned data
         """
         if not users:
-            raise Exception("Input is empty")
+            raise KloutError(0, "No Users.")
         if not isinstance(users, (list, tuple)):
-            raise Exception("Not Implemented Yet")
+            raise KloutError(0, "Wrong input.")
         users = ",".join(users)
         query = {"users":users}
         result = self.__service.makeCall("user", query)
