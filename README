@@ -1,0 +1,6 @@
+Version: 0.1 
+Note: The library is still in development...
+
+Python library for the Klout service(http://www.klout.com)
+
+It requires a Klout API Key. You can get one here: http://developer.klout.com/ 
