@@ -201,7 +201,7 @@ class TestKloutService(KloutService):
                                 }
                             ]
                     }
-        else: 
+        elif callName == "influencerOf": 
             return {"users":[
                                 {
                                 "twitter_screen_name":"user1", 
@@ -210,5 +210,11 @@ class TestKloutService(KloutService):
                                                 }]
                                 }
                             ]
+                    }
+        elif callName == "history":
+            return {'dates':[], 'klout_score':[], 'amplification':[],
+                    'retweets':[], 'mentions':[],'network':[],
+                    'followers_following':[], 'followers_count':[], 'mentioners':[],
+                    'retweeters':[],'true_reach':[],'in_out':[] 
                     }
    

@@ -54,6 +54,7 @@ class TestKloutServiceTestCase(unittest.TestCase):
         self.topicsResponse = self.service.makeCall("topics", {})
         self.influencedByResponse = self.service.makeCall("influencedBy", {})
         self.influencerOfResponse = self.service.makeCall("influencerOf", {})
+        self.historyResponse = self.service.makeCall("history", {})
       def tearDown(self):
         self.service = None
       # MakeCall("score", ...
@@ -244,4 +245,55 @@ class TestKloutServiceTestCase(unittest.TestCase):
         actual = score.get("true_reach")
         self.assertIsInstance(actual, type(1))
         self.assertIsNotNone(actual) 
-
+      # MakeCall("history"...
+      def test_makeCall_WithHistoryAsCallName_returnsADictionary(self):
+        self.assertIsInstance(self.service.makeCall("history", {}), type({}))
+      def test_makeCall_HistoryCallName_containsDatesProperty(self):
+        key = "dates"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsKlout_ScoreProperty(self):
+        key = "klout_score"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsAmplificationProperty(self):
+        key = "amplification"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsRetweetsProperty(self):
+        key = "retweets"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsMentionsProperty(self):
+        key = "mentions"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsNetworkProperty(self):
+        key = "network"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsFollowers_FollowingProperty(self):
+        key = "followers_following"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsFollowers_CountProperty(self):
+        key = "followers_count"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsMentionersProperty(self):
+        key = "mentioners"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsRetweetersProperty(self):
+        key = "retweeters"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsTrueReachProperty(self):
+        key = "true_reach"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+      def test_makeCall_HistoryCallName_containsInOutProperty(self):
+        key = "in_out"
+        self.assertTrue(key in self.historyResponse)
+        self.assertIsInstance(self.historyResponse.get(key), type([]))
+        
